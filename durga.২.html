@@ -1,0 +1,185 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>শুভ শারদীয়ার প্রীতি ও শুভেচ্ছা</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Baloo Da 2', 'Noto Sans Bengali', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: radial-gradient(circle at center, rgba(0,0,0,0.5) 0%, rgba(17,17,17,0.5) 100%);
+  margin: 0;
+  overflow-x: hidden;
+  padding-top: 50px; 
+  padding-bottom: 50px; 
+}
+
+.card {
+  position: relative;
+  z-index: 2;
+  max-width: 560px;
+  width: 100%;
+  background: rgba(255,255,255,0);
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(255,165,0,0.3);
+  backdrop-filter: blur(4px);
+}
+
+#durgaContainer { position: relative; display: inline-block; }
+#durgaImg { max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 0 20px rgba(255,182,193,0.5); display: block; }
+.sparkleCanvas { position: absolute; top:0; left:0; width:100%; height:100%; pointer-events: none; z-index: 2; }
+
+h1 { 
+  margin: 12px 0 6px; 
+  font-size: 26px; 
+  color: #b22222; 
+  text-shadow: 1px 1px 4px #ffdead; 
+  font-family: 'Baloo Da 2', cursive; 
+  opacity: 0;
+  transform: scale(0.8);
+  animation: fadeInZoom 1.2s forwards;
+  animation-delay: 0.3s;
+}
+
+p { 
+  margin: 6px 0 16px; 
+  color: #fff; 
+  font-size: 16px; 
+}
+
+.row { display: flex; gap: 10px; justify-content: center; margin-bottom: 12px; }
+input[type="text"] {
+  padding: 10px; border-radius: 10px; border: 1px solid #ddd; min-width: 200px; font-size: 15px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+  font-family: 'Baloo Da 2', cursive;
+}
+
+button {
+  padding: 12px 18px; border-radius: 12px; border: 0; font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+  background: linear-gradient(45deg, #25d366, #128c7e); color: #fff; font-weight: bold;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  font-family: 'Baloo Da 2', cursive;
+  animation: pulse 2s infinite;
+}
+button:hover { transform: scale(1.08); box-shadow: 0 6px 15px rgba(0,0,0,0.4); }
+
+#senderName {
+  display: block;
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: #ff4500;
+  margin-top: 8px;
+  animation: pulseName 2s infinite;
+}
+
+@keyframes pulseName {
+  0% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.7; }
+}
+
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+@keyframes fadeInZoom { to { opacity:1; transform: scale(1); } }
+
+#fullScreenAd { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background-color: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; color: #fff; flex-direction: column; text-align: center; font-family: 'Baloo Da 2', cursive; }
+#fullScreenAd button { background: #25d366; padding: 12px 20px; font-size: 16px; border-radius: 10px; border: none; cursor: pointer; }
+
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div id="durgaContainer">
+    <img id="durgaImg" src="Durga.jpg" alt="Durga" />
+    <canvas id="sparkles" class="sparkleCanvas"></canvas>
+  </div>
+  <h1 id="greeting">শারদীয়া দুর্গোৎসবের আন্তরিক শুভেচ্ছা ও প্রীতি 🌸</h1>
+  <p id="toLine">আপনি এবং আপনার পরিবার সুস্থ থাকুন, ভালো থাকুন।</p>
+
+  <div style="margin-top:14px">
+    <div class="row">
+      <input id="nameInput" type="text" placeholder="আপনার নাম লিখুন" />
+      <button id="shareBtn">Share Now</button>
+    </div>
+  </div>
+</div>
+
+<div id="fullScreenAd"></div>
+
+<script>
+// URL param handling
+function qs(name){ const params = new URLSearchParams(window.location.search); return params.get(name); }
+
+function updateUI(){
+  const from = qs('from'); 
+  const greeting = document.getElementById('greeting');
+  const toLine = document.getElementById('toLine');
+
+  greeting.textContent = 'শারদীয়া দুর্গোৎসবের আন্তরিক শুভেচ্ছা ও প্রীতি 🌸';
+
+  if(from){
+    toLine.innerHTML = `
+      এই শুভক্ষণে আন্তরিক শুভেচ্ছা জানালাম আমি<br>
+      <span id="senderName">- ${from}</span><br><br>
+      আপনি এবং আপনার পরিবার সুস্থ থাকুন, ভালো থাকুন।
+    `;
+  } else {
+    toLine.textContent = 'আপনি এবং আপনার পরিবার সুস্থ থাকুন, ভালো থাকুন।';
+  }
+}
+
+function makeLink(fromName){ 
+  const url = new URL(window.location.href); 
+  const params = new URLSearchParams(); 
+  params.set('from', fromName); 
+  url.search = params.toString(); 
+  return url.toString(); 
+}
+
+document.getElementById('shareBtn').addEventListener('click', ()=>{
+  const val = document.getElementById('nameInput').value.trim();
+  if(!val){ alert('আপনার নাম লিখুন।'); return; }
+
+  const ad = document.getElementById('fullScreenAd');
+  ad.style.display = 'flex';
+
+  ad.innerHTML = `
+    <div style="text-align:center;color:#fff;">
+      <h2>Advertisement</h2>
+      <p>আপনার Ad এখানে দেখানো হবে</p>
+      <br><button id="closeAd">Close Ad</button>
+    </div>
+  `;
+
+  document.getElementById('closeAd').onclick = function(){
+    ad.style.display = 'none';
+    const link = makeLink(val);
+    const message = `শারদীয়া দুর্গোৎসবের আন্তরিক শুভেচ্ছা ও প্রীতি 🌸
+এই শুভক্ষণে আন্তরিক শুভেচ্ছা জানালাম আমি
+- ${val}
+
+আপনি এবং আপনার পরিবার সুস্থ থাকুন, ভালো থাকুন।
+${link}`;
+    const waUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(waUrl, '_blank');
+  };
+});
+
+updateUI();
+</script>
+
+</body>
+</html>
